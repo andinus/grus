@@ -1,0 +1,17 @@
+#+HTML_HEAD: <link rel="stylesheet" href="../../static/style.css">
+#+HTML_HEAD: <link rel="icon" href="../../static/grus/favicon.png" type="image/png">
+#+EXPORT_FILE_NAME: index
+#+TITLE: Grus
+
+Grus is a simple word unjumbler written in Go.
+
+| Project Home    | [[https://andinus.nand.sh/grus/][Grus]]           |
+| Source Code     | [[https://tildegit.org/andinus/grus][Andinus / Grus]] |
+| GitHub (Mirror) | [[https://github.com/andinus/grus][Grus - GitHub]]  |
+
+* Working
+- Grus takes a word as input from the user
+- Input is ordered in [[https://wikipedia.org/wiki/Lexicographical_order][lexical order]]
+- Ordered input is searched in grus's database
+
+It returns unjumbled word along with all the anagrams.
