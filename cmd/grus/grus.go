@@ -47,12 +47,14 @@ func grus() {
 	word := os.Args[1]
 	sorted := lexical.Sort(word)
 
-	out, err := search.Word(sorted, db)
+	anagrams, err := search.Anagrams(sorted, db)
 	if err == sql.ErrNoRows {
 		fmt.Println("Word not found in database.")
 		return
 	} else if err != nil {
 		log.Fatalf("grus: Search failed :: %s", err)
 	}
-	fmt.Println(out)
+	for _, w := range anagrams {
+		fmt.Println(w)
+	}
 }
