@@ -1,0 +1,54 @@
+#!/usr/bin/env python3
+
+import sys
+import sqlite3
+import argparse
+
+parser = argparse.ArgumentParser(description='grus-add')
+parser.add_argument('-f', '--file', type=str, required=False,
+                    help='file containing list of strings')
+parser.add_argument('-w', '--word', type=str, required=False,
+                    help='file containing list of strings')
+parser.add_argument('-d', '--db', type=str, required=True,
+                    help='database file')
+args = parser.parse_args()
+
+if __name__ == '__main__':
+    if args.file == None and args.word == None:
+            print("-f or -w required")
+            print("run grus-add --help to print help")
+            sys.exit(1)
+
+    conn = sqlite3.connect(args.db)
+    curs = conn.cursor()
+
+    stmt = """CREATE TABLE IF NOT EXISTS words (
+    word   TEXT PRIMARY KEY NOT NULL,
+    sorted TEXT NOT NULL);"""
+    curs.execute(stmt)
+    conn.commit()
+
+    stmt = """INSERT INTO words(word, sorted)
+    VALUES(?, ?);"""
+
+    if args.file != None:
+        rows = []
+        with open(args.file) as words:
+            for word in words:
+                word = word.strip()
+                lexical = ''.join(sorted(word))
+                rows.append((word, lexical))
+                print(len(rows))
+                sys.stdout.write('\x1b[1A')
+                sys.stdout.write('\x1b[2K')
+        curs.executemany(stmt, rows)
+
+    elif args.word != None:
+        word = args.word.strip()
+        lexical = ''.join(sorted(word))
+        curs.execute(stmt, (word, lexical))
+
+    conn.commit()
+
+    curs.close()
+    conn.close()
