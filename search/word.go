@@ -1,11 +1,9 @@
 package search
 
-import (
-	"tildegit.org/andinus/grus/storage"
-)
+import "tildegit.org/andinus/grus/storage"
 
 // Word will search for unjumbled words in database, given sorted word.
-func Word(sorted string, db *storage.DB) (out string, err error) {
+func Word(sorted string, db *storage.DB) (word string, err error) {
 	db.Mu.RLock()
 	defer db.Mu.RUnlock()
 
@@ -15,7 +13,7 @@ func Word(sorted string, db *storage.DB) (out string, err error) {
 	}
 	defer stmt.Close()
 
-	err = stmt.QueryRow(sorted).Scan(&out)
+	err = stmt.QueryRow(sorted).Scan(&word)
 	if err != nil {
 		return
 	}
