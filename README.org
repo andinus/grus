@@ -15,3 +15,98 @@ Grus is a simple word unjumbler written in Go.
 - Ordered input is searched in grus's database
 
 It returns unjumbled word along with all the anagrams.
+
+* History
+Initial version of Grus was just a simple shell script that used the slowest
+method of unjumbling words, it checked every permutation of the word with all
+words in the file with same length.
+
+Later I rewrote the above logic in python, I wanted to use a better method. Next
+version used logic similar to the current one. It still had to iterate through
+all the words in the file but it eliminated lots of cases very quickly so it was
+faster. It first used the length check then it used this little thing to match
+the words.
+
+#+BEGIN_SRC python
+import collections
+
+match = lambda s1, s2: collections.Counter(s1) == collections.Counter(s2)
+#+END_SRC
+
+I don't understand how it works but it's fast, faster than convert the string to
+list & sorting the list. Actually I did that initially & you'll still find it in
+grus-add script.
+
+#+BEGIN_SRC python
+lexical = ''.join(sorted(word))
+if word == lexical:
+    print(word)
+#+END_SRC
+
+This is equivalent to lexical.SlowSort in current version.
+
+#+BEGIN_SRC go
+package lexical
+
+import (
+	"sort"
+	"strings"
+)
+
+// SlowSort returns string in lexical order. This function is slower
+// than Lexical.
+func SlowSort(word string) (sorted string) {
+	// Convert word to a slice, sort the slice.
+	t := strings.Split(word, "")
+	sort.Strings(t)
+
+	sorted = strings.Join(t, "")
+	return
+}
+#+END_SRC
+
+Next version was also in python & it was stupid, for some reason using a
+database didn't cross my mind then. It sorted the word & then created a file
+with name as lexical order of that word (if word is "test" then filename would
+be "estt"), and it appended the word to that file.
+
+It took user input & sorted the word, then it just had to print the file (if
+word is "test" then it had to print "estt"). This was a lot faster than
+iterating through all the words but we had to prepare the files before we could
+do this.
+
+This was very stupid because the dictionary I was using had around 1/2 million
+words so this meant we got around half a million files, actually less than that
+because anagrams got appended into a single file but it was still a lot of small
+files. Handling that many small files is stupid.
+
+I don't have previous versions of this program. I decided to rewrite this in Go,
+this version does things differently & is faster than all previous versions.
+Currently we first sort the word in lexical order, we do that by converting the
+string to =[]rune= & sorting it, this is faster than lexical.SlowSort.
+lexical.SlowSort converts the string to =[]string= & sorts it.
+
+#+BEGIN_SRC go
+package lexical
+
+import "sort"
+
+// Sort takes a string as input and returns the lexical order.
+func Sort(word string) (sorted string) {
+	// Convert the string to []rune.
+	var r []rune
+	for _, char := range word {
+		r = append(r, char)
+	}
+
+	sort.Slice(r, func(i, j int) bool {
+		return r[i] < r[j]
+	})
+
+	sorted = string(r)
+	return
+}
+#+END_SRC
+
+Instead of creating lots of small files, entries are stored in a sqlite3
+database.
