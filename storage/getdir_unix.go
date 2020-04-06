@@ -8,9 +8,9 @@ import (
 )
 
 // GetDir returns grus data directory. Check if the user has set
-// GRUS_DIR, if not then check if XDG_DATA_HOME is set & if that is
-// not set then assume it to be the default value which is
-// $HOME/.local/share according to XDG Base Directory Specification.
+// XDG_DATA_HOME is set & if that is not set then assume it to be the
+// default value which is $HOME/.local/share according to XDG Base
+// Directory Specification.
 func GetDir() string {
 	cacheDir := SysDir()
 
@@ -24,7 +24,6 @@ func GetDir() string {
 // SysDir returns the system data directory, this is useful for unveil in
 // OpenBSD.
 func SysDir() string {
-	cacheDir := os.Getenv("GRUS_DIR")
 	if len(cacheDir) == 0 {
 		cacheDir = os.Getenv("XDG_DATA_HOME")
 	}
