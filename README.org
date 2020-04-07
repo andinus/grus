@@ -15,36 +15,7 @@ Grus is a simple word unjumbler written in Go.
 * Working
 - Grus takes a word as input from the user
 - Input is ordered in [[https://wikipedia.org/wiki/Lexicographical_order][lexical order]]
-- Ordered input is searched in grus's database
-
-It returns unjumbled word along with all the anagrams.
-* Examples
-Run =grus help= to get the usage printed.
-
-#+BEGIN_SRC sh
-grus tinesl # will unjumble tinesl
-#+END_SRC
-
-You can also use the =grus-add= python script to add words to grus.
-* Installation
-** Pre-built binaries
-Pre-built binaries are available for OpenBSD.
-*** v0.1.0
-#+BEGIN_SRC sh
-curl -s \
-     https://tildegit.org/andinus/grus/raw/tag/v0.1.0/scripts/install.sh | sh
-
-# Download the initialization scripts.
-curl -o grus-add \
-     https://tildegit.org/andinus/grus/raw/tag/v0.1.0/scripts/grus-add
-
-curl -o init \
-     https://tildegit.org/andinus/grus/raw/tag/v0.1.0/scripts/init
-
-# Initialize the database.
-chmod +x init && \
-    ./init
-#+END_SRC
+- Ordered input is searched in dictionary
 * History
 Initial version of Grus was just a simple shell script that used the slowest
 method of unjumbling words, it checked every permutation of the word with all
@@ -139,3 +110,8 @@ func Sort(word string) (sorted string) {
 
 Instead of creating lots of small files, entries are stored in a sqlite3
 database.
+
+This was true till v0.1.0, v0.2.0 was rewritten & it dropped the use of database
+or any form of pre-parsing the dictionary. Instead it would look through each
+line of dictionary & unjumble the word, while this is a lot slower than previous
+version but this is simpler.
