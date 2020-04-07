@@ -66,19 +66,19 @@ understand what you're doing.
 #+BEGIN_SRC sh
 curl -s https://tildegit.org/andinus/grus/raw/tag/v0.2.0/scripts/install.sh | sh
 #+END_SRC
-**** Post install
+** Post install
 You need to have a dictionary for grus to work, if you don't have one then you
 can download the Webster's Second International Dictionary, all 234,936 words
 worth. The 1934 copyright has lapsed.
 #+BEGIN_SRC sh
-curl -L -o /usr/local/share/web2 \
+curl -L -o /usr/local/share/dict/web2 \
      https://archive.org/download/grus-v0.2.0/web2
 #+END_SRC
 
 There is also another big dictionary with around half a million english words.
 I'm not allowed to distribute it, you can get it directly from GitHub.
 #+BEGIN_SRC sh
-curl -o /usr/local/share/words \
+curl -o /usr/local/share/dict/words \
      https://raw.githubusercontent.com/dwyl/english-words/master/words.txt
 #+END_SRC
 * History
