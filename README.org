@@ -10,12 +10,40 @@ Grus is a simple word unjumbler written in Go.
 | GitHub (Mirror) | [[https://github.com/andinus/grus][Grus - GitHub]]  |
 
 *Tested on*:
-- OpenBSD 6.6 (with /unveil/)
+- OpenBSD 6.6 (with /pledge/ & /unveil/)
 
-* Working
-- Grus takes a word as input from the user
-- Input is ordered in [[https://wikipedia.org/wiki/Lexicographical_order][lexical order]]
-- Ordered input is searched in dictionary
+* Documentation
+Grus stops the search as soon as it unjumbles the word, so no anagrams are
+returned & maybe all dictionaries were not searched. However, this behaviour can
+be changed with two environment variables documented below.
+
+*Note*: If grus couldn't unjumble the word with first dictionary then it'll search
+in next dictionary, search stops once the word gets unjumbled.
+
+| Environment variable | Explanation                | Non-default values |
+|----------------------+----------------------------+--------------------|
+| =GRUS_SEARCH_ALL=      | Search in all dictionaries | 1 / true           |
+| =GRUS_ANAGRAMS=        | Print all anagrams         | 1 / true           |
+** Examples
+#+BEGIN_SRC sh
+# unjumble word
+grus word
+
+# print all anagrams
+GRUS_ANAGRAMS=true grus word
+
+# search for word in all dictionaries
+GRUS_SEARCH_ALL=true grus word
+
+# search for word in custom dictionaries too
+grus word /path/to/dict1 /path/to/dict2
+
+# search for word in all dictionaries
+GRUS_SEARCH_ALL=1 grus word /path/to/dict1 /path/to/dict2
+
+# search for word in all dictionaries & print all anagrams
+GRUS_SEARCH_ALL=1 GRUS_ANAGRAMS=1 grus word
+#+END_SRC
 * History
 Initial version of Grus was just a simple shell script that used the slowest
 method of unjumbling words, it checked every permutation of the word with all
@@ -113,5 +141,5 @@ database.
 
 This was true till v0.1.0, v0.2.0 was rewritten & it dropped the use of database
 or any form of pre-parsing the dictionary. Instead it would look through each
-line of dictionary & unjumble the word, while this is a lot slower than previous
+line of dictionary & unjumble the word, while this may be slower than previous
 version but this is simpler.
