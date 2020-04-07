@@ -23,7 +23,9 @@ func grus() {
 
 	dicts := []string{
 		"/usr/local/share/dict/words",
+		"/usr/local/share/dict/web2",
 		"/usr/share/dict/words",
+		"/usr/share/dict/web2",
 		"/usr/share/dict/special/4bsd",
 		"/usr/share/dict/special/math",
 	}
