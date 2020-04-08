@@ -26,6 +26,10 @@ Linux & macOS.
 This will just print the steps to install grus & you have to run those commands
 manually. Piping directly to =sh= is not a good idea, don't run this unless you
 understand what you're doing.
+*** v0.3.0
+#+BEGIN_SRC sh
+curl -s https://tildegit.org/andinus/grus/raw/tag/v0.3.0/scripts/install.sh | sh
+#+END_SRC
 *** v0.2.0
 #+BEGIN_SRC sh
 curl -s https://tildegit.org/andinus/grus/raw/tag/v0.2.0/scripts/install.sh | sh
