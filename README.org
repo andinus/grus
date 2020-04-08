@@ -19,20 +19,21 @@ Grus is a simple word unjumbler written in Go.
 |-------------+------------------------------------|
 | [[https://diode.zone/videos/watch/515e2528-a731-4c73-a0da-4f8da21a90c0][Grus v0.2.0]] | OpenBSD 6.6 (with /pledge/ & /unveil/) |
 
-Grus stops the search as soon as it unjumbles the word, so no anagrams are
-returned & maybe all dictionaries were not searched. However, this behaviour can
-be changed with two environment variables documented below.
+*Note*: This is documentation for latest release, releases are tagged & so
+previous documentation can be checked by browsing source at tags.
 
-*Note*: If grus couldn't unjumble the word with first dictionary then it'll search
-in next dictionary, search stops once the word gets unjumbled.
-
-| Environment variable      | Explanation                        |
-|---------------------------+------------------------------------|
-| =GRUS_SEARCH_ALL=           | Search in all dictionaries         |
-| =GRUS_ANAGRAMS=             | Print all anagrams                 |
-| =GRUS_PRINT_PATH= =(v0.2.1+)= | Print dictionary path before words |
-
-Set these environment variable to /1 / true/ to change behaviour.
+** Environment Variables
+*** =GRUS_SEARCH_ALL=
+Search in all dictionaries, by default Grus will exit after searching in first
+dictionary.
+*** =GRUS_ANAGRAMS=
+Prints all anagrams if set to true, by default Grus will print all anagrams.
+*** =GRUS_PRINT_PATH=
+Prints path to dictionary if set to true, this is set to false by default.
+*** =GRUS_STRICT_UNJUMBLE=
+Overrides everything & will try to print at least one match, if it doesn't find
+any then it will exit the program with a non-zero exit code. This will ignore
+=GRUS_SEARCH_ALL= till it finds at least one match.
 ** Default Dictionaries
 These files will be checked by default (in order).
 - =/usr/local/share/dict/words=
@@ -46,23 +47,20 @@ These files will be checked by default (in order).
 # unjumble word
 grus word
 
-# print all anagrams
-GRUS_ANAGRAMS=true grus word
-
-# search for word in all dictionaries
-GRUS_SEARCH_ALL=true grus word
+# don't print all anagrams
+GRUS_ANAGRAMS=false grus word
 
 # search for word in custom dictionaries too
 grus word /path/to/dict1 /path/to/dict2
 
 # search for word in all dictionaries
-GRUS_SEARCH_ALL=1 grus word /path/to/dict1 /path/to/dict2
-
-# search for word in all dictionaries & print all anagrams
-GRUS_SEARCH_ALL=1 GRUS_ANAGRAMS=1 grus word
+GRUS_SEARCH_ALL=true grus word /path/to/dict1 /path/to/dict2
 
 # print path to dictionary
 GRUS_PRINT_PATH=1 grus word
+
+# find at least one match
+GRUS_STRICT_UNJUMBLE=1 grus word
 #+END_SRC
 * Installation
 ** Pre-built binaries
