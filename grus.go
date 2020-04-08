@@ -14,7 +14,7 @@ func grus() {
 		os.Exit(1)
 	}
 
-	version := "v0.2.0"
+	version := "v0.2.1"
 
 	if os.Args[1] == "version" {
 		fmt.Printf("Grus %s\n", version)
@@ -52,6 +52,14 @@ func grus() {
 		anagrams = true
 	}
 
+	// Check if user wants to print dictionary path.
+	printPath := false
+	printPathEnv := os.Getenv("GRUS_PRINT_PATH")
+	if printPathEnv == "true" ||
+		printPathEnv == "1" {
+		printPath = true
+	}
+
 	for _, dict := range dicts {
 		if _, err := os.Stat(dict); err != nil &&
 			!os.IsNotExist(err) {
@@ -64,6 +72,11 @@ func grus() {
 			// If file doesn't exist then continue with
 			// next dictionary.
 			continue
+		}
+
+		// Print path to dictionary if printPath is true.
+		if printPath {
+			fmt.Println(dict)
 		}
 
 		file, err := os.Open(dict)

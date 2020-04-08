@@ -26,10 +26,13 @@ be changed with two environment variables documented below.
 *Note*: If grus couldn't unjumble the word with first dictionary then it'll search
 in next dictionary, search stops once the word gets unjumbled.
 
-| Environment variable | Explanation                | Non-default values |
-|----------------------+----------------------------+--------------------|
-| =GRUS_SEARCH_ALL=      | Search in all dictionaries | 1 / true           |
-| =GRUS_ANAGRAMS=        | Print all anagrams         | 1 / true           |
+| Environment variable      | Explanation                        |
+|---------------------------+------------------------------------|
+| =GRUS_SEARCH_ALL=           | Search in all dictionaries         |
+| =GRUS_ANAGRAMS=             | Print all anagrams                 |
+| =GRUS_PRINT_PATH= =(v0.2.1+)= | Print dictionary path before words |
+
+Set these environment variable to /1 / true/ to change behaviour.
 ** Default Dictionaries
 These files will be checked by default (in order).
 - =/usr/local/share/dict/words=
@@ -57,6 +60,9 @@ GRUS_SEARCH_ALL=1 grus word /path/to/dict1 /path/to/dict2
 
 # search for word in all dictionaries & print all anagrams
 GRUS_SEARCH_ALL=1 GRUS_ANAGRAMS=1 grus word
+
+# print path to dictionary
+GRUS_PRINT_PATH=1 grus word
 #+END_SRC
 * Installation
 ** Pre-built binaries
