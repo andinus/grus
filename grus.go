@@ -14,7 +14,7 @@ func grus() {
 		os.Exit(1)
 	}
 
-	version := "v0.2.1"
+	version := "v0.3.0"
 
 	// Print version if first argument is version.
 	if os.Args[1] == "version" {

@@ -44,6 +44,12 @@ These files will be checked by default (in order).
 - =/usr/share/dict/special/math=
 ** Examples
 #+BEGIN_SRC sh
+# print grus version
+grus version
+
+# print grus env
+grus env
+
 # unjumble word
 grus word
 
