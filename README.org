@@ -14,11 +14,38 @@ Grus is a simple word unjumbler written in Go.
 *Tested on*:
 - OpenBSD 6.6 (with /pledge/ & /unveil/)
 
-* Documentation
 | Demo Video  | System Information                 |
 |-------------+------------------------------------|
 | [[https://diode.zone/videos/watch/515e2528-a731-4c73-a0da-4f8da21a90c0][Grus v0.2.0]] | OpenBSD 6.6 (with /pledge/ & /unveil/) |
 
+* Installation
+** Pre-built binaries
+Pre-built binaries are available for OpenBSD, FreeBSD, NetBSD, DragonFly BSD,
+Linux & macOS.
+
+This will just print the steps to install grus & you have to run those commands
+manually. Piping directly to =sh= is not a good idea, don't run this unless you
+understand what you're doing.
+*** v0.2.0
+#+BEGIN_SRC sh
+curl -s https://tildegit.org/andinus/grus/raw/tag/v0.2.0/scripts/install.sh | sh
+#+END_SRC
+** Post install
+You need to have a dictionary for grus to work, if you don't have one then you
+can download the Webster's Second International Dictionary, all 234,936 words
+worth. The 1934 copyright has lapsed.
+#+BEGIN_SRC sh
+curl -L -o /usr/local/share/dict/web2 \
+     https://archive.org/download/grus-v0.2.0/web2
+#+END_SRC
+
+There is also another big dictionary with around half a million english words.
+I'm not allowed to distribute it, you can get it directly from GitHub.
+#+BEGIN_SRC sh
+curl -o /usr/local/share/dict/words \
+     https://raw.githubusercontent.com/dwyl/english-words/master/words.txt
+#+END_SRC
+* Documentation
 *Note*: This is documentation for latest release, releases are tagged & so
 previous documentation can be checked by browsing source at tags.
 
@@ -67,33 +94,6 @@ GRUS_PRINT_PATH=1 grus word
 
 # find at least one match
 GRUS_STRICT_UNJUMBLE=1 grus word
-#+END_SRC
-* Installation
-** Pre-built binaries
-Pre-built binaries are available for OpenBSD, FreeBSD, NetBSD, DragonFly BSD,
-Linux & macOS.
-
-This will just print the steps to install grus & you have to run those commands
-manually. Piping directly to =sh= is not a good idea, don't run this unless you
-understand what you're doing.
-*** v0.2.0
-#+BEGIN_SRC sh
-curl -s https://tildegit.org/andinus/grus/raw/tag/v0.2.0/scripts/install.sh | sh
-#+END_SRC
-** Post install
-You need to have a dictionary for grus to work, if you don't have one then you
-can download the Webster's Second International Dictionary, all 234,936 words
-worth. The 1934 copyright has lapsed.
-#+BEGIN_SRC sh
-curl -L -o /usr/local/share/dict/web2 \
-     https://archive.org/download/grus-v0.2.0/web2
-#+END_SRC
-
-There is also another big dictionary with around half a million english words.
-I'm not allowed to distribute it, you can get it directly from GitHub.
-#+BEGIN_SRC sh
-curl -o /usr/local/share/dict/words \
-     https://raw.githubusercontent.com/dwyl/english-words/master/words.txt
 #+END_SRC
 * History
 Initial version of Grus was just a simple shell script that used the slowest
