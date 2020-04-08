@@ -15,6 +15,10 @@ Grus is a simple word unjumbler written in Go.
 - OpenBSD 6.6 (with /pledge/ & /unveil/)
 
 * Documentation
+| Demo Video  | System Information                 |
+|-------------+------------------------------------|
+| [[https://diode.zone/videos/watch/515e2528-a731-4c73-a0da-4f8da21a90c0][Grus v0.2.0]] | OpenBSD 6.6 (with /pledge/ & /unveil/) |
+
 Grus stops the search as soon as it unjumbles the word, so no anagrams are
 returned & maybe all dictionaries were not searched. However, this behaviour can
 be changed with two environment variables documented below.
