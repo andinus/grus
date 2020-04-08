@@ -10,15 +10,22 @@ import (
 )
 
 func main() {
-	err := unix.PledgePromises("unveil stdio rpath")
-	panicOnErr(err)
+	// We need less permissions on these conditions.
+	if len(os.Args) == 1 ||
+		os.Args[1] == "version" ||
+		os.Args[1] == "env" {
+		err := unix.PledgePromises("stdio")
+		panicOnErr(err)
+	} else {
+		err := unix.PledgePromises("unveil stdio rpath")
+		panicOnErr(err)
 
-	unveil()
+		unveil()
 
-	// Drop unveil from promises.
-	err = unix.PledgePromises("stdio rpath")
-	panicOnErr(err)
-
+		// Drop unveil from promises.
+		err = unix.PledgePromises("stdio rpath")
+		panicOnErr(err)
+	}
 	grus()
 }
 
