@@ -6,15 +6,18 @@ import (
 	"os"
 
 	"tildegit.org/andinus/grus/lexical"
+	"tildegit.org/andinus/lynx"
 )
 
-func grus() {
+func main() {
+	initGrus()
+
 	if len(os.Args) == 1 {
 		fmt.Println("Usage: grus <word> <dictionaries>")
 		os.Exit(1)
 	}
 
-	version := "v0.3.0"
+	version := "v0.3.1"
 
 	// Print version if first argument is version.
 	if os.Args[1] == "version" {
@@ -134,8 +137,47 @@ func grus() {
 		if !envVar["GRUS_SEARCH_ALL"] {
 			os.Exit(0)
 		}
-
 	}
+}
+
+func initGrus() {
+	// We need less permissions on these conditions.
+	if len(os.Args) == 1 ||
+		os.Args[1] == "version" ||
+		os.Args[1] == "env" {
+		err := lynx.PledgePromises("stdio")
+		panicOnErr(err)
+	} else {
+		err := lynx.PledgePromises("unveil stdio rpath")
+		panicOnErr(err)
+
+		unveil()
+
+		// Drop unveil from promises.
+		err = lynx.PledgePromises("stdio rpath")
+		panicOnErr(err)
+	}
+}
+
+func unveil() {
+	paths := make(map[string]string)
+
+	paths["/usr/share/dict"] = "r"
+	paths["/usr/local/share/dict"] = "r"
+
+	// Unveil user defined dictionaries.
+	if len(os.Args) >= 3 {
+		for _, dict := range os.Args[2:] {
+			paths[dict] = "r"
+		}
+	}
+	// This will not return error if the file doesn't exist.
+	err := lynx.UnveilPaths(paths)
+	panicOnErr(err)
+
+	// Block further unveil calls.
+	err = lynx.UnveilBlock()
+	panicOnErr(err)
 }
 
 func panicOnErr(err error) {
