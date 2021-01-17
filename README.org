@@ -1,8 +1,6 @@
-#+HTML_HEAD: <link rel="stylesheet" href="../../static/style.css">
-#+HTML_HEAD: <link rel="icon" href="../../static/grus/favicon.png" type="image/png">
+#+SETUPFILE: ~/.emacs.d/org-templates/projects.org
 #+EXPORT_FILE_NAME: index
-#+OPTIONS: toc:nil
-#+TOC: headlines 3
+#+OPTIONS: toc:3
 #+TITLE: Grus
 
 Grus is a simple word unjumbler written in Go.
